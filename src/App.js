@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import RecipeList from './RecipeList';
+import {drinks} from './drink_types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  const [stateDrink, setStateDrink] = useState('lemon tea');
+  const btnStyle={margin: '1rem'}
+
+  function buttonClass(btnName){
+    if(btnName.toLowerCase()===stateDrink.toLowerCase()){
+      return `btn btn-outline-secondary active`
+    } else {
+      return `btn btn-outline-secondary`
+    }
+  }
+
+  function renderButtons(){
+    return drinks.map(drink => {
+      return (
+        <button
+        key={drink.title}
+        className={buttonClass(drink.title)}
+        onClick={()=>setStateDrink(drink.title)}
+        style={btnStyle}>
+          {drink.title}
+        </button>
+      )
+    })
+  }
+
+  return(
+    <div className='container'>
+    {renderButtons()}
+      <RecipeList drink={stateDrink}/>
     </div>
-  );
+  )
 }
 
 export default App;
